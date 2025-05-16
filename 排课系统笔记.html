@@ -10069,6 +10069,87 @@ input.vis-configuration.vis-config-range:focus::-ms-fill-upper {
 </style>
     </head>
     <body>
+<h3 data-heading="显示所有班级名、教师名、课程名" dir="auto">显示所有班级名、教师名、课程名</h3>
+<pre><code>-- 显示所有班级名
+select class_name from class1 where class_name like '%%';
+-- 显示所有教师名
+select teacher_name from teacher where teacher_name like '%%';
+-- 显示所有课程名
+select course_name from course where course_name like '%%';
+</code><button class="copy-code-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-copy"><rect x="8" y="8" width="14" height="14" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path><style>
+:root {
+  --default-font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Microsoft YaHei Light", sans-serif;
+  --font-monospace: 'Source Code Pro', monospace;
+  --background-primary: #ffffff;
+  --background-modifier-border: #ddd;
+  --text-accent: #705dcf;
+  --text-accent-hover: #7a6ae6;
+  --text-normal: #2e3338;
+  --background-secondary: #f2f3f5;
+  --background-secondary-alt: #e3e5e8;
+  --text-muted: #888888;
+}</style>"<marker id="mermaid_arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker>"</svg></button></pre>
+<h3 data-heading="生成指定班级课程表，可视化版" dir="auto">生成指定班级课程表，可视化版</h3>
+<pre class="language-sql" tabindex="0"><code class="language-sql is-loaded"><span class="token comment">-- 生成指定班级课程表，可视化版</span>
+<span class="token keyword">select</span>
+	arrangement_section <span class="token keyword">as</span> 节次<span class="token punctuation">,</span>
+	<span class="token function">max</span><span class="token punctuation">(</span><span class="token keyword">case</span> <span class="token keyword">when</span> arrangement_week <span class="token operator">=</span> <span class="token string">'一'</span> <span class="token keyword">then</span> course_name <span class="token keyword">end</span><span class="token punctuation">)</span> <span class="token keyword">as</span> 一<span class="token punctuation">,</span>
+	<span class="token function">max</span><span class="token punctuation">(</span><span class="token keyword">case</span> <span class="token keyword">when</span> arrangement_week <span class="token operator">=</span> <span class="token string">'二'</span> <span class="token keyword">then</span> course_name <span class="token keyword">end</span><span class="token punctuation">)</span> <span class="token keyword">as</span> 二<span class="token punctuation">,</span>
+	<span class="token function">max</span><span class="token punctuation">(</span><span class="token keyword">case</span> <span class="token keyword">when</span> arrangement_week <span class="token operator">=</span> <span class="token string">'三'</span> <span class="token keyword">then</span> course_name <span class="token keyword">end</span><span class="token punctuation">)</span> <span class="token keyword">as</span> 三<span class="token punctuation">,</span>
+	<span class="token function">max</span><span class="token punctuation">(</span><span class="token keyword">case</span> <span class="token keyword">when</span> arrangement_week <span class="token operator">=</span> <span class="token string">'四'</span> <span class="token keyword">then</span> course_name <span class="token keyword">end</span><span class="token punctuation">)</span> <span class="token keyword">as</span> 四<span class="token punctuation">,</span>
+	<span class="token function">max</span><span class="token punctuation">(</span><span class="token keyword">case</span> <span class="token keyword">when</span> arrangement_week <span class="token operator">=</span> <span class="token string">'五'</span> <span class="token keyword">then</span> course_name <span class="token keyword">end</span><span class="token punctuation">)</span> <span class="token keyword">as</span> 五<span class="token punctuation">,</span>
+	<span class="token function">max</span><span class="token punctuation">(</span><span class="token keyword">case</span> <span class="token keyword">when</span> arrangement_week <span class="token operator">=</span> <span class="token string">'六'</span> <span class="token keyword">then</span> course_name <span class="token keyword">end</span><span class="token punctuation">)</span> <span class="token keyword">as</span> 六<span class="token punctuation">,</span>
+	<span class="token function">max</span><span class="token punctuation">(</span><span class="token keyword">case</span> <span class="token keyword">when</span> arrangement_week <span class="token operator">=</span> <span class="token string">'日'</span> <span class="token keyword">then</span> course_name <span class="token keyword">end</span><span class="token punctuation">)</span> <span class="token keyword">as</span> 日
+<span class="token keyword">from</span> arrangement
+<span class="token keyword">join</span> course <span class="token keyword">on</span> course<span class="token punctuation">.</span>course_id <span class="token operator">=</span> arrangement<span class="token punctuation">.</span>course_id
+<span class="token keyword">join</span> class1 <span class="token keyword">on</span> class1<span class="token punctuation">.</span>class_id <span class="token operator">=</span> arrangement<span class="token punctuation">.</span>class_id
+<span class="token keyword">where</span> class_name <span class="token operator">like</span> <span class="token string">'2023多媒体制作班'</span>
+<span class="token keyword">group</span> <span class="token keyword">by</span> arrangement_section
+<span class="token keyword">order</span> <span class="token keyword">by</span> arrangement_section
+</code><button class="copy-code-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-copy"><rect x="8" y="8" width="14" height="14" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path><style>
+:root {
+  --default-font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Microsoft YaHei Light", sans-serif;
+  --font-monospace: 'Source Code Pro', monospace;
+  --background-primary: #ffffff;
+  --background-modifier-border: #ddd;
+  --text-accent: #705dcf;
+  --text-accent-hover: #7a6ae6;
+  --text-normal: #2e3338;
+  --background-secondary: #f2f3f5;
+  --background-secondary-alt: #e3e5e8;
+  --text-muted: #888888;
+}</style>"<marker id="mermaid_arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker>"</svg></button></pre>
+<h3 data-heading="生成指定班级课程表，带任课教师，可视化版" dir="auto">生成指定班级课程表，带任课教师，可视化版</h3>
+<pre><code>-- 生成指定班级课程表，带任课教师，可视化版
+select
+arrangement_section as 节次,
+	max(case when arrangement_week = '一' then concat(course_name,' 【',teacher_name,'】') end) as 一,
+	max(case when arrangement_week = '二' then concat(course_name,' 【',teacher_name,'】') end) as 二,
+	max(case when arrangement_week = '三' then concat(course_name,' 【',teacher_name,'】') end) as 三,
+	max(case when arrangement_week = '四' then concat(course_name,' 【',teacher_name,'】') end) as 四,
+	max(case when arrangement_week = '五' then concat(course_name,' 【',teacher_name,'】') end) as 五,
+	max(case when arrangement_week = '六' then concat(course_name,' 【',teacher_name,'】') end) as 六,
+	max(case when arrangement_week = '日' then concat(course_name,' 【',teacher_name,'】') end) as 日
+from arrangement
+join course on course.course_id = arrangement.course_id
+join class1 on class1.class_id = arrangement.class_id
+join teacher on teacher.teacher_id = arrangement.teacher_id
+where class_name like '2024多媒体制作1班'
+group by arrangement_section
+order by arrangement_section
+</code><button class="copy-code-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-copy"><rect x="8" y="8" width="14" height="14" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path><style>
+:root {
+  --default-font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Microsoft YaHei Light", sans-serif;
+  --font-monospace: 'Source Code Pro', monospace;
+  --background-primary: #ffffff;
+  --background-modifier-border: #ddd;
+  --text-accent: #705dcf;
+  --text-accent-hover: #7a6ae6;
+  --text-normal: #2e3338;
+  --background-secondary: #f2f3f5;
+  --background-secondary-alt: #e3e5e8;
+  --text-muted: #888888;
+}</style>"<marker id="mermaid_arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker>"</svg></button></pre>
 <h3 data-heading="显示所有班级课表，班级名，星期，节次，课程名，教师名" dir="auto">显示所有班级课表，班级名，星期，节次，课程名，教师名</h3>
 <pre class="language-sql" tabindex="0"><code class="language-sql is-loaded"><span class="token comment">-- 显示所有班级课表，班级名，星期，节次，课程名，教师名</span>
 <span class="token keyword">select</span>
@@ -10187,6 +10268,35 @@ course_name <span class="token keyword">as</span> <span class="token string">'�
   --background-secondary-alt: #e3e5e8;
   --text-muted: #888888;
 }</style>"<marker id="mermaid_arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker>"</svg></button></pre>
+<h3 data-heading="显示指定节次涉及的老师、课程名、课程对应课时数" dir="auto">显示指定节次涉及的老师、课程名、课程对应课时数</h3>
+<pre class="language-sql" tabindex="0"><code class="language-sql is-loaded"><span class="token comment">-- 显示指定节次涉及的老师、课程名、课程对应课时数</span>
+<span class="token keyword">select</span> 
+	teacher_name <span class="token keyword">as</span> <span class="token string">'教师名'</span><span class="token punctuation">,</span> 
+	course_name <span class="token keyword">as</span> <span class="token string">'课程名'</span><span class="token punctuation">,</span> 
+	<span class="token function">count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword">as</span> <span class="token string">'课时数'</span> 
+<span class="token keyword">from</span> arrangement
+<span class="token keyword">join</span> class1 <span class="token keyword">on</span> arrangement<span class="token punctuation">.</span>class_id <span class="token operator">=</span> class1<span class="token punctuation">.</span>class_id
+<span class="token keyword">join</span> course <span class="token keyword">on</span> arrangement<span class="token punctuation">.</span>course_id <span class="token operator">=</span> course<span class="token punctuation">.</span>course_id
+<span class="token keyword">join</span> classroom <span class="token keyword">on</span> arrangement<span class="token punctuation">.</span>classroom_id <span class="token operator">=</span> classroom<span class="token punctuation">.</span>classroom_id
+<span class="token keyword">join</span> teacher <span class="token keyword">on</span> arrangement<span class="token punctuation">.</span>teacher_id <span class="token operator">=</span> teacher<span class="token punctuation">.</span>teacher_id
+<span class="token keyword">where</span> arrangement_week <span class="token operator">in</span>
+<span class="token punctuation">(</span><span class="token string">'一'</span><span class="token punctuation">)</span>
+<span class="token operator">and</span> arrangement_section <span class="token operator">in</span>
+<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">)</span>
+<span class="token keyword">group</span> <span class="token keyword">by</span> teacher_name<span class="token punctuation">,</span> course_name
+</code><button class="copy-code-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-copy"><rect x="8" y="8" width="14" height="14" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path><style>
+:root {
+  --default-font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Microsoft YaHei Light", sans-serif;
+  --font-monospace: 'Source Code Pro', monospace;
+  --background-primary: #ffffff;
+  --background-modifier-border: #ddd;
+  --text-accent: #705dcf;
+  --text-accent-hover: #7a6ae6;
+  --text-normal: #2e3338;
+  --background-secondary: #f2f3f5;
+  --background-secondary-alt: #e3e5e8;
+  --text-muted: #888888;
+}</style>"<marker id="mermaid_arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker>"</svg></button></pre>
 <h3 data-heading="显示指定班级指定节次涉及的老师及对应总课时数" dir="auto">显示指定班级指定节次涉及的老师及对应总课时数</h3>
 <pre class="language-sql" tabindex="0"><code class="language-sql is-loaded"><span class="token comment">-- 显示指定班级指定节次涉及的老师</span>
 <span class="token keyword">select</span> teacher_name <span class="token keyword">as</span> <span class="token string">'教师名'</span><span class="token punctuation">,</span> <span class="token function">count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword">as</span> <span class="token string">'课时数'</span> <span class="token keyword">from</span> arrangement
@@ -10245,7 +10355,38 @@ course_name <span class="token keyword">as</span> <span class="token string">'�
   --background-secondary-alt: #e3e5e8;
   --text-muted: #888888;
 }</style>"<marker id="mermaid_arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker>"</svg></button></pre>
-<h3 data-heading="显示 姓名、任教年级、任教学科、周课时（学校教职工分工明细表）" dir="auto">显示 姓名、任教年级、任教学科、周课时（学校教职工分工明细表）</h3>
+<h3 data-heading="显示指定范围老师，在指定节次，涉及的课程名、课程对应课时数" dir="auto">显示指定范围老师，在指定节次，涉及的课程名、课程对应课时数</h3>
+<pre class="language-sql" tabindex="0"><code class="language-sql is-loaded"><span class="token comment">-- 显示指定范围老师，在指定节次，涉及的课程名、课程对应课时数</span>
+<span class="token keyword">select</span>
+	teacher_name <span class="token keyword">as</span> <span class="token string">'教师名'</span><span class="token punctuation">,</span>
+	course_name <span class="token keyword">as</span> <span class="token string">'课程名'</span><span class="token punctuation">,</span>
+	<span class="token function">count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword">as</span> <span class="token string">'课时数'</span>
+<span class="token keyword">from</span> arrangement
+<span class="token keyword">join</span> class1 <span class="token keyword">on</span> arrangement<span class="token punctuation">.</span>class_id <span class="token operator">=</span> class1<span class="token punctuation">.</span>class_id
+<span class="token keyword">join</span> course <span class="token keyword">on</span> arrangement<span class="token punctuation">.</span>course_id <span class="token operator">=</span> course<span class="token punctuation">.</span>course_id
+<span class="token keyword">join</span> classroom <span class="token keyword">on</span> arrangement<span class="token punctuation">.</span>classroom_id <span class="token operator">=</span> classroom<span class="token punctuation">.</span>classroom_id
+<span class="token keyword">join</span> teacher <span class="token keyword">on</span> arrangement<span class="token punctuation">.</span>teacher_id <span class="token operator">=</span> teacher<span class="token punctuation">.</span>teacher_id
+<span class="token keyword">where</span> teacher_name <span class="token operator">in</span>
+	<span class="token punctuation">(</span><span class="token string">'刘帅'</span><span class="token punctuation">,</span> <span class="token string">'杨晴'</span><span class="token punctuation">,</span> <span class="token string">'陈颖超'</span><span class="token punctuation">,</span> <span class="token string">'符恺璐'</span><span class="token punctuation">,</span> <span class="token string">'孟久轩'</span><span class="token punctuation">,</span> <span class="token string">'王艳会'</span><span class="token punctuation">,</span> <span class="token string">'葛俞珊'</span><span class="token punctuation">,</span> <span class="token string">'谭姝'</span><span class="token punctuation">)</span>
+	<span class="token operator">and</span> arrangement_week <span class="token operator">in</span>
+	<span class="token punctuation">(</span><span class="token string">'五'</span><span class="token punctuation">)</span>
+	<span class="token operator">and</span> arrangement_section <span class="token operator">in</span>
+	<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span>
+<span class="token keyword">group</span> <span class="token keyword">by</span> teacher_name<span class="token punctuation">,</span> course_name
+</code><button class="copy-code-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-copy"><rect x="8" y="8" width="14" height="14" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path><style>
+:root {
+  --default-font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Microsoft YaHei Light", sans-serif;
+  --font-monospace: 'Source Code Pro', monospace;
+  --background-primary: #ffffff;
+  --background-modifier-border: #ddd;
+  --text-accent: #705dcf;
+  --text-accent-hover: #7a6ae6;
+  --text-normal: #2e3338;
+  --background-secondary: #f2f3f5;
+  --background-secondary-alt: #e3e5e8;
+  --text-muted: #888888;
+}</style>"<marker id="mermaid_arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker>"</svg></button></pre>
+<h3 data-heading="显示姓名、任教年级、任教学科、周课时（学校教职工分工明细表）" dir="auto">显示姓名、任教年级、任教学科、周课时（学校教职工分工明细表）</h3>
 <pre class="language-sql" tabindex="0"><code class="language-sql is-loaded"><span class="token comment">-- 显示 姓名，任教年级，任教学科，周课时（学校教职工分工明细表）</span>
 <span class="token keyword">select</span> 姓名<span class="token punctuation">,</span> 
 concat<span class="token punctuation">(</span><span class="token string">'信息工程系 '</span><span class="token punctuation">,</span> 年级<span class="token punctuation">)</span> <span class="token keyword">as</span> 任教年级<span class="token punctuation">,</span>
@@ -10292,6 +10433,42 @@ course_name <span class="token keyword">as</span> 课程<span class="token punct
 <span class="token keyword">as</span> table2
 <span class="token keyword">group</span> <span class="token keyword">by</span> 姓名<span class="token punctuation">)</span>
 <span class="token keyword">as</span> table3
+</code><button class="copy-code-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-copy"><rect x="8" y="8" width="14" height="14" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path><style>
+:root {
+  --default-font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Microsoft YaHei Light", sans-serif;
+  --font-monospace: 'Source Code Pro', monospace;
+  --background-primary: #ffffff;
+  --background-modifier-border: #ddd;
+  --text-accent: #705dcf;
+  --text-accent-hover: #7a6ae6;
+  --text-normal: #2e3338;
+  --background-secondary: #f2f3f5;
+  --background-secondary-alt: #e3e5e8;
+  --text-muted: #888888;
+}</style>"<marker id="mermaid_arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker>"</svg></button></pre>
+<h3 data-heading="生成 专业课课时统计表【not in】 或 公共课课时统计表【in】" dir="auto">生成 专业课课时统计表【not in】 或 公共课课时统计表【in】</h3>
+<pre class="language-sql" tabindex="0"><code class="language-sql is-loaded"><span class="token comment">-- 生成 专业课课时统计表【not in】 或 公共课课时统计表【in】</span>
+<span class="token keyword">select</span>
+	姓名<span class="token punctuation">,</span>
+	<span class="token function">sum</span><span class="token punctuation">(</span>课时数<span class="token punctuation">)</span> <span class="token keyword">as</span> 总课时数<span class="token punctuation">,</span>
+	group_concat<span class="token punctuation">(</span>课时详情<span class="token punctuation">,</span> <span class="token string">'、'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> 课时详情
+<span class="token keyword">from</span>
+<span class="token punctuation">(</span><span class="token keyword">select</span>
+	teacher_name <span class="token keyword">as</span> 姓名<span class="token punctuation">,</span>
+	concat<span class="token punctuation">(</span>class_name<span class="token punctuation">,</span> <span class="token string">"_"</span><span class="token punctuation">,</span> course_name<span class="token punctuation">,</span> <span class="token string">"("</span><span class="token punctuation">,</span> <span class="token function">count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">")"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> 课时详情<span class="token punctuation">,</span>
+	<span class="token function">count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword">as</span> 课时数
+<span class="token keyword">from</span> arrangement
+<span class="token keyword">join</span> course <span class="token keyword">on</span> course<span class="token punctuation">.</span>course_id <span class="token operator">=</span> arrangement<span class="token punctuation">.</span>course_id
+<span class="token keyword">join</span> class1 <span class="token keyword">on</span> class1<span class="token punctuation">.</span>class_id <span class="token operator">=</span> arrangement<span class="token punctuation">.</span>class_id
+<span class="token keyword">join</span> teacher <span class="token keyword">on</span> teacher<span class="token punctuation">.</span>teacher_id <span class="token operator">=</span> arrangement<span class="token punctuation">.</span>teacher_id
+<span class="token keyword">where</span> course_name <span class="token operator">not</span> <span class="token operator">in</span>
+	<span class="token punctuation">(</span><span class="token string">"语文"</span><span class="token punctuation">,</span> <span class="token string">"数学"</span><span class="token punctuation">,</span> <span class="token string">"英语"</span><span class="token punctuation">,</span> <span class="token string">"体育"</span><span class="token punctuation">,</span>
+	<span class="token string">"德育"</span><span class="token punctuation">,</span> <span class="token string">"劳动"</span><span class="token punctuation">,</span> <span class="token string">"历史"</span><span class="token punctuation">,</span> <span class="token string">"美育"</span><span class="token punctuation">,</span> <span class="token string">"美术"</span><span class="token punctuation">,</span>
+	<span class="token string">"信息技术"</span><span class="token punctuation">,</span> <span class="token string">"音乐"</span><span class="token punctuation">,</span> <span class="token string">"数字技术应用"</span><span class="token punctuation">)</span>
+<span class="token keyword">group</span> <span class="token keyword">by</span> teacher_name<span class="token punctuation">,</span> class_name<span class="token punctuation">,</span> course_name
+<span class="token keyword">order</span> <span class="token keyword">by</span> 姓名 <span class="token keyword">desc</span><span class="token punctuation">)</span> table1
+<span class="token keyword">group</span> <span class="token keyword">by</span> 姓名
+<span class="token keyword">order</span> <span class="token keyword">by</span> 总课时数 <span class="token keyword">desc</span>
 </code><button class="copy-code-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-copy"><rect x="8" y="8" width="14" height="14" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path><style>
 :root {
   --default-font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Microsoft YaHei Light", sans-serif;
