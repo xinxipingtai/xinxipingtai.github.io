@@ -10916,6 +10916,45 @@ course_name <span class="token keyword">as</span> <span class="token string">'�
   --background-secondary-alt: #e3e5e8;
   --text-muted: #888888;
 }</style>"<marker id="mermaid_arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker>"</svg></button></pre>
+<h3 data-heading="显示姓名、班级、学科、周总课时数" dir="auto">显示姓名、班级、学科、周总课时数</h3>
+<pre class="language-sql" tabindex="0"><code class="language-sql is-loaded"><span class="token keyword">select</span>
+	姓名<span class="token punctuation">,</span>
+	group_concat<span class="token punctuation">(</span><span class="token keyword">distinct</span> 班级名<span class="token punctuation">)</span> <span class="token keyword">as</span> 班级名<span class="token punctuation">,</span>
+	group_concat<span class="token punctuation">(</span><span class="token keyword">distinct</span> 课程名<span class="token punctuation">)</span> <span class="token keyword">as</span> 课程名<span class="token punctuation">,</span>
+	<span class="token function">sum</span><span class="token punctuation">(</span>课时数<span class="token punctuation">)</span> <span class="token keyword">as</span> 总课时数
+<span class="token keyword">from</span>
+	<span class="token punctuation">(</span><span class="token keyword">select</span>
+		teacher_name <span class="token keyword">as</span> 姓名<span class="token punctuation">,</span>
+		class_name <span class="token keyword">as</span> 班级名<span class="token punctuation">,</span>
+		course_name <span class="token keyword">as</span> 课程名<span class="token punctuation">,</span>
+		<span class="token function">count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword">as</span> 课时数
+	<span class="token keyword">from</span> arrangement
+	<span class="token keyword">join</span> course <span class="token keyword">on</span> course<span class="token punctuation">.</span>course_id <span class="token operator">=</span> arrangement<span class="token punctuation">.</span>course_id
+	<span class="token keyword">join</span> class1 <span class="token keyword">on</span> class1<span class="token punctuation">.</span>class_id <span class="token operator">=</span> arrangement<span class="token punctuation">.</span>class_id
+	<span class="token keyword">join</span> teacher <span class="token keyword">on</span> teacher<span class="token punctuation">.</span>teacher_id <span class="token operator">=</span> arrangement<span class="token punctuation">.</span>teacher_id
+	<span class="token keyword">where</span> teacher_name <span class="token operator">in</span>
+	<span class="token punctuation">(</span><span class="token string">'刘帅'</span><span class="token punctuation">,</span> <span class="token string">'李佳展'</span><span class="token punctuation">,</span>
+	<span class="token string">'李连花'</span><span class="token punctuation">,</span> <span class="token string">'张雪莹'</span><span class="token punctuation">,</span>
+	<span class="token string">'杨晴'</span><span class="token punctuation">,</span> <span class="token string">'陈颖超'</span><span class="token punctuation">,</span> <span class="token string">'符恺璐'</span><span class="token punctuation">,</span>
+	<span class="token string">'孟久轩'</span><span class="token punctuation">,</span> <span class="token string">'王艳会'</span><span class="token punctuation">,</span> <span class="token string">'冯云鹤'</span><span class="token punctuation">,</span>
+	<span class="token string">'牛俊芝'</span><span class="token punctuation">,</span> <span class="token string">'杨硕'</span><span class="token punctuation">)</span>
+	<span class="token keyword">group</span> <span class="token keyword">by</span> teacher_name<span class="token punctuation">,</span> class_name<span class="token punctuation">,</span> course_name
+	<span class="token keyword">order</span> <span class="token keyword">by</span> 姓名 <span class="token keyword">desc</span><span class="token punctuation">)</span> table1
+<span class="token keyword">group</span> <span class="token keyword">by</span> 姓名
+<span class="token keyword">order</span> <span class="token keyword">by</span> 总课时数 <span class="token keyword">desc</span>
+</code><button class="copy-code-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-copy"><rect x="8" y="8" width="14" height="14" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path><style>
+:root {
+  --default-font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Microsoft YaHei Light", sans-serif;
+  --font-monospace: 'Source Code Pro', monospace;
+  --background-primary: #ffffff;
+  --background-modifier-border: #ddd;
+  --text-accent: #705dcf;
+  --text-accent-hover: #7a6ae6;
+  --text-normal: #2e3338;
+  --background-secondary: #f2f3f5;
+  --background-secondary-alt: #e3e5e8;
+  --text-muted: #888888;
+}</style>"<marker id="mermaid_arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker>"</svg></button></pre>
 <h3 data-heading="显示姓名、任教年级、任教学科、周课时（学校教职工分工明细表）" dir="auto">显示姓名、任教年级、任教学科、周课时（学校教职工分工明细表）</h3>
 <pre class="language-sql" tabindex="0"><code class="language-sql is-loaded"><span class="token comment">-- 显示 姓名，任教年级，任教学科，周课时（学校教职工分工明细表）</span>
 <span class="token keyword">select</span> 姓名<span class="token punctuation">,</span> 
