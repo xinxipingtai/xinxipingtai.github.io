@@ -1,116 +1,68 @@
+<!DOCTYPE html>
+<!--
+  This is the root document for _your_ JupyterLite. Thanks for viewing your source!
+     ___ __   __ _______ __   __ _______ _______ ______   ___     ___ _______ _______
+    |   |  | |  |       |  | |  |       |       |    _ | |   |   |   |       |       |
+    |   |  | |  |    _  |  |_|  |_     _|    ___|   | || |   |   |   |_     _|    ___|
+    |   |  |_|  |   |_| |       | |   | |   |___|   |_||_|   |   |   | |   | |   |___
+ ___|   |       |    ___|_     _| |   | |    ___|    __  |   |___|   | |   | |    ___|
+|       |       |   |     |   |   |   | |   |___|   |  | |       |   | |   | |   |___
+|_______|_______|___|     |___|   |___| |_______|___|  |_|_______|___| |___| |_______|
+
+Code: https://github.com/jupyterlite/jupyterlite
+Demo: https://jupyterlite.rtfd.io/en/latest/try
+
+# FILES
+
+Your JupyterLite is structured like this:
+
+    index.html             <---- you are here
+    {:app}/                <---- currently-known: `lab` (semi-required) and `retro`
+      index.html
+      extensions/
+        {:org}/{:package}/ <---|
+        {:package}/        <---+- federated extensions
+          schema/
+          package.json
+    # TBD
+    files/                 <----- also need to populate `api/contents/`!
+    static/                <----- might save duplication
+      {:app}
+
+-->
 <html>
+  <head>
+    <!--
+      # jupyter-config-data
 
-<head>
-    <meta charset="utf-8">
-    <title>信息工程系公共文件</title>
-    <style>
-        /* @font-face {
-            font-family: "zidingyi";
-            src: url("/fonts/Yozai-Medium.ttf");
-        } */
-        body{
-            /* font-family: "zidingyi"; */
-            margin:0px;
-            padding:0px;
-            box-sizing: border-box;
-            text-shadow: 0 0 1px #9E9EAE, 0 0 2px #C1C1C5;
-        }
-        h1{
-            display: block;
-            width: 100%;
-            text-align: center;
-        }
-        a {
-            color:white;
-            font-size: 24px;
-            text-decoration: none;
-        }
-        a:visited {
-            color: white;
-        }
-        div.blocks {
-            display: block;
-        }
-        div.content {
-            display: block;
-            width: 100%;
-            text-align: center;
-            height: 50px;
-            margin-top: 30px;
-            margin-bottom: 30px;
-        }
-        div>a {
-            height: 60px;
-            line-height: 60px;
-            width: 80%;
-            background-color:cornflowerblue;
-            border: none;
-            color: white;
-            text-decoration: none;
-            display: inline-block;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-            border-radius: 5px;
-        }
-        .sep{
-            display: block;
-            width: 100%;
-            height: 10px;
-        }
-    </style>
-</head>
+      The JSON in `jupyter-lite.json` is the last that will be loaded by most
+      child `index.html` pages, and every field can be overridden.
 
-<body>
-    <div class="sep"></div>
-    <h1>信息工程系公共文件</h1>
-    <div class="blocks">
-        <div class="content"><a href="./kechengzongbiao.html" target="_blank">信息工程系2025-2026学年度第一学期课程总表</a></div>
-        <div></div>
-        <div class="content"><a href="./校园平面图.htm" target="_blank">校园平面图</a></div>
-        <div></div>
-        <div class="content"><a href="./教室分布图.htm" target="_blank">教室分布图</a></div>
-        <div></div>
-        <div class="content"><a href="./作息时间表.htm" target="_blank">作息时间表</a></div>
-        <div></div>
-        <div class="content"><a href="./值班表.htm" target="_blank">值班表</a></div>
-    </div>
-    <h1>系办文件</h1>
-    <div class="blocks">
-        <div class="content"><a href="#" onclick="gotoxinxigongchengxi()">信息工程系人名单</a></div>
-        <div></div>
-        <div class="content"><a href="#" onclick="goto24wangan1_1()">2024网络信息安全1班人名单</a></div>
-        <div></div>
-        <div class="content"><a href="#" onclick="gotobanjiliebiao()">信息工程系班级列表</a></div>
-        <div></div>
-        <div class="content"><a href="#" onclick="gotobiaoji()">临时记录表</a></div>
-        <div></div>
-    </div>
-    <script>
-        function goto24wangan1_1(){
-            var mima = prompt("请输入密码：")
-            if(mima == "longlong"){
-                window.location.href = "https://kdocs.cn/l/cgMDxKI359vr"
-            }
-        }
-        function gotoxinxigongchengxi(){
-            var mima = prompt("请输入密码：")
-            if(mima == "longlong"){
-                window.location.href = "https://kdocs.cn/l/cdqVvbxBKTtX"
-            }
-        }
-        function gotobanjiliebiao(){
-            var mima = prompt("请输入密码：")
-            if(mima == "longlong"){
-                window.location.href = "https://www.kdocs.cn/l/cc2w5Rm4xufV"
-            }
-        }
-        function gotobiaoji(){
-            var mima = prompt("请输入密码：")
-            if(mima == "longlong"){
-                window.location.href = "https://www.kdocs.cn/l/cg7wxf5zWp8c"
-            }
-        }
+      See the recognized schema as described in the documentation:
+
+      - https://jupyterlite.rtfd.io/en/latest/schema
+
+      Notes
+        - fields that...
+          - are relative paths values
+            - will have the parent directory of _this_ file appended, accounting
+              for "magic" hosts which redirect to `{:path}index.html` to `{:path}`,
+              with or without a slash
+        - some fields, such as `federated_extensions` will be _added together_
+    -->
+    <script id="jupyter-config-data" type="application/json" data-jupyter-lite-root=".">
+      {}
     </script>
-</body>
+    <!--
+      # jupyter-lite-root
+
+      The source of truth for relative path locations. The `.` means _this_
+      is the root, and will redirect to the `appUrl` defined in
+      `.jupyter-lite/#jupyter-config-data`.
+    -->
+    <script type="module">
+      await import('./config-utils.js');
+    </script>
+    <!-- that's it, there shouldn't be anything below here in head! -->
+  </head>
 </html>
