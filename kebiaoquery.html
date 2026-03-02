@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>课表查询器</title>
+</head>
+<body>
+  <div id="output">正在加载...</div>
+
+  <!-- 从你的 GitHub 仓库加载 sql-wasm.js -->
+  <!-- <script src="https://raw.githubusercontent.com/yourname/your-repo/main/sql-wasm.js"></script> -->
+ <script src="http://127.0.0.1/sql-wasm.js"></script>
+  <script>
+    // 配置 locateFile 指向你 GitHub 上的 .wasm 文件
+    async function initDB() {
+    //   const SQL = await initSqlJs({
+    //     locateFile: () => 
+    //       "https://raw.githubusercontent.com/yourname/your-repo/main/sql-wasm.wasm"
+    //   });
+        const SQL = await initSqlJs({
+            locateFile: () =>
+                "http://127.0.0.1/sql-wasm.wasm"
+        })
+
+      const response = await fetch('http://127.0.0.1/kebiaohistory/classarrangement2025年秋季课表数据库最终版.db');
+      const buffer = await response.arrayBuffer();
+
+      db = new SQL.Database(new Uint8Array(buffer));
+      console.log("数据库加载成功！");
+
+    }
+    
+    async function runQuery(){
+        if(!db){
+            document.getElementById("output").textContent = "数据库加载中...";
+            return ;
+        }
+
+        const sql = documnt.getElementById
+    }
+
+    initDB().catch(err => {
+      console.error(err);
+      document.getElementById('output').textContent = '加载失败: ' + err.message;
+    });
+  </script>
+</body>
+</html>
