@@ -3,7 +3,7 @@ from openpyxl import load_workbook
 from openpyxl.cell import MergedCell
 import os
 
-rootdir = r"C:\微云同步助手\281475128776228\xinxipingtai\xinxipingtai.github.io"
+rootdir = r"C:\微云同步助手\281475128776228\newxinxipingtai\xinxipingtai.github.io"
 inputfilename = "信息工程系人名单网页版.xlsx"
 sheetname = "Sheet1"
 
